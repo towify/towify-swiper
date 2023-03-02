@@ -1,0 +1,12 @@
+:host {
+  .swiper-container {
+    width: 500px;
+    height: 500px;
+    background: gray;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    grid-template-columns: 100%;
+    grid-template-rows: 100%;
+  }
+}
