@@ -1,6 +1,6 @@
-import { Component, ContentChild, ElementRef, Input, NgZone, OnInit, ViewChild } from '@angular/core';
+import { Component, ContentChild, ElementRef, EventEmitter, Input, NgZone, OnInit, Output, ViewChild } from '@angular/core';
 import { TowifySwiperContentDirective } from './towify-swiper-content.directive';
-import { CdkDragMove, CdkDragStart, DragRef, Point } from '@angular/cdk/drag-drop';
+import { CdkDragMove, CdkDragStart } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'towify-swiper',
@@ -16,6 +16,12 @@ export class TowifySwiperComponent implements OnInit {
 
   @Input()
   data: any[] = [];
+
+  @Output()
+  swiperLeft = new EventEmitter<number>();
+
+  @Output()
+  swiperRight = new EventEmitter<number>()
 
   readonly interval: number;
   topIndex;
@@ -35,9 +41,7 @@ export class TowifySwiperComponent implements OnInit {
     return { x: this.containerRect.x, y: this.containerRect.y };
   }
 
-  constructor(
-    private readonly ngZone: NgZone,
-  ) {
+  constructor() {
     this.topIndex = 0;
     this.startX = -1;
     this.containerRect = {
@@ -96,6 +100,11 @@ export class TowifySwiperComponent implements OnInit {
   transitionEnd() {
     if (!this.animationTransition) return;
     this.animationTransition = '';
+    if (this.animationDirection === 'right') {
+      this.swiperRight.emit(this.topIndex - 1);
+    } else if (this.animationDirection === 'left') {
+      this.swiperLeft.emit(this.topIndex - 1);
+    }
+    this.animationDirection = undefined;
   }
-
 }

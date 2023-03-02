@@ -1,4 +1,4 @@
-import { Component, ContentChild, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 
 
 @Component({
@@ -18,8 +18,17 @@ export class AppComponent {
   }, {
     background: 'purple'
   }, {
-    background: 'white'
+    background: 'pink'
   }, {
     background: 'green'
   }]
+
+
+  swiperLeft(index: number) {
+    console.log('swiperLeft = ', index)
+  }
+
+  swiperRight(index: number) {
+    console.log('swiperRight = ', index)
+  }
 }
