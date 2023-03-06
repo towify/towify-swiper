@@ -5,7 +5,7 @@
      (cdkDragMoved)="dragMove($event)"
      #swiperContainer
 >
-  <div *ngFor="let contentData of data; let swiperIndex = index;"
+  <div class="swiper-card" *ngFor="let contentData of data; let swiperIndex = index;"
        (transitionend)="transitionEnd()"
        [style.transition]="animationTransition"
        [style.cursor]="isDragging ? 'grabbing' : 'grab'"
