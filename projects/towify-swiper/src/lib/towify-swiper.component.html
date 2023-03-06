@@ -1,0 +1,21 @@
+<div class="swiper-container" cdkDrag
+     [cdkDragConstrainPosition]="computeDragRenderPos"
+     (cdkDragStarted)="dragStart($event)"
+     (cdkDragEnded)="dragEnd()"
+     (cdkDragMoved)="dragMove($event)"
+     #swiperContainer
+>
+  <div *ngFor="let contentData of data; let swiperIndex = index;"
+       (transitionend)="transitionEnd()"
+       [style.transition]="animationTransition"
+       [style.cursor]="isDragging ? 'grabbing' : 'grab'"
+       [ngStyle]="swiperIndex | towifySwiperContentStyle : topIndex : transformPercent : animationDirection"
+  >
+    <ng-container
+      *ngIf="content"
+      [ngTemplateOutlet]="content.templateRef"
+      [ngTemplateOutletContext]="{$implicit: contentData}"
+    ></ng-container>
+  </div>
+</div>
+

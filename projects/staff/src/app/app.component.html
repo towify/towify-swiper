@@ -1,0 +1,12 @@
+<towify-swiper
+  [data]="swiper"
+  (swiperLeft)="swiperLeft($event)"
+  (swiperRight)="swiperRight($event)"
+>
+  <ng-template let-contentData towifySwiperContent>
+    <div style="width: 200px; height: 200px"
+         [style.background]="contentData.background"
+    >
+    </div>
+  </ng-template>
+</towify-swiper>
