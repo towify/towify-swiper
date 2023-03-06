@@ -10,10 +10,15 @@
       "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "projects/towify-swiper/tsconfig.lib.json",
             "project": "projects/towify-swiper/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/towify-swiper/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
