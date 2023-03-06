@@ -3,9 +3,9 @@
   (swiperLeft)="swiperLeft($event)"
   (swiperRight)="swiperRight($event)"
 >
-  <ng-template let-contentData towifySwiperContent>
+  <ng-template let-item towifySwiperContent>
     <div style="width: 200px; height: 200px"
-         [style.background]="contentData.background"
+         [style.background]="item.background"
     >
     </div>
   </ng-template>

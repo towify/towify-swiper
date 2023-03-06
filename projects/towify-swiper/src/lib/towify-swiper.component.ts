@@ -1,22 +1,13 @@
-import {
-  Component,
-  ContentChild,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, ContentChild, ElementRef, EventEmitter, Input, Output, ViewChild, } from '@angular/core';
 import { TowifySwiperContentDirective } from './towify-swiper-content.directive';
 import { CdkDragMove, CdkDragStart } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'towify-swiper',
   templateUrl: './towify-swiper.component.html',
-  styleUrls: ['./towify-swiper.component.scss'],
+  styleUrls: ['./towify-swiper.component.scss']
 })
-export class TowifySwiperComponent implements OnInit {
+export class TowifySwiperComponent {
   @ContentChild(TowifySwiperContentDirective)
   content?: TowifySwiperContentDirective;
 
@@ -42,6 +33,7 @@ export class TowifySwiperComponent implements OnInit {
     width: number;
     height: number;
   };
+
   animationDirection?: 'left' | 'right';
   animationTransition = '';
   isDragging = false;
@@ -57,12 +49,10 @@ export class TowifySwiperComponent implements OnInit {
       x: 0,
       y: 0,
       width: 1,
-      height: 1,
+      height: 1
     };
     this.interval = 0.5;
   }
-
-  ngOnInit() {}
 
   dragStart(data: CdkDragStart) {
     if (data.event.type === 'mousemove') {
@@ -77,7 +67,7 @@ export class TowifySwiperComponent implements OnInit {
       x: swiperContainerRect.x,
       y: swiperContainerRect.y,
       width: swiperContainerRect.width,
-      height: swiperContainerRect.height,
+      height: swiperContainerRect.height
     };
     this.transformPercent = 0;
     this.animationTransition = '';
@@ -105,7 +95,7 @@ export class TowifySwiperComponent implements OnInit {
     this.animationDirection = this.transformPercent > 0 ? 'right' : 'left';
     this.startX = -1;
     this.transformPercent = 0;
-    this.animationTransition = `all ${this.interval}s`;
+    this.animationTransition = `all ${ this.interval }s`;
     this.topIndex += 1;
     this.isDragging = false;
   }

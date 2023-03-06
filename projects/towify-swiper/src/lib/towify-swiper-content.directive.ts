@@ -5,8 +5,6 @@ import { Directive, TemplateRef } from '@angular/core';
 })
 export class TowifySwiperContentDirective {
 
-  constructor(public templateRef: TemplateRef<unknown>) {
-    console.log('directi', templateRef)
-  }
+  constructor(public templateRef: TemplateRef<unknown>) {}
 
 }
