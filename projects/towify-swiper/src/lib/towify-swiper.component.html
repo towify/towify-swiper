@@ -5,17 +5,21 @@
      (cdkDragMoved)="dragMove($event)"
      #swiperContainer
 >
-  <div class="swiper-card" *ngFor="let contentData of data; let swiperIndex = index;"
-       (transitionend)="transitionEnd()"
-       [style.transition]="animationTransition"
-       [style.cursor]="isDragging ? 'grabbing' : 'grab'"
-       [ngStyle]="swiperIndex | towifySwiperContentStyle : topIndex : transformPercent : animationDirection"
-  >
-    <ng-container
-      *ngIf="content"
-      [ngTemplateOutlet]="content.templateRef"
-      [ngTemplateOutletContext]="{$implicit: contentData}"
-    ></ng-container>
-  </div>
+  <ng-container *ngFor="let contentData of data; let swiperIndex = index;">
+    <div
+      *ngIf="swiperIndex > currentIndex - 2 || swiperIndex < currentIndex + MAX_VISIBLE_CONTENT_COUNT "
+      class="swiper-card"
+      (transitionend)="transitionEnd()"
+      [style.transition]="animationTransition"
+      [style.cursor]="isDragging ? 'grabbing' : 'grab'"
+      [ngStyle]="swiperIndex | towifySwiperContentStyle : currentIndex : transformPercent : animationDirection"
+    >
+      <ng-container
+        *ngIf="content"
+        [ngTemplateOutlet]="content.templateRef"
+        [ngTemplateOutletContext]="{$implicit: contentData}"
+      ></ng-container>
+    </div>
+  </ng-container>
 </div>
 
