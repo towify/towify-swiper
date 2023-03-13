@@ -17,6 +17,9 @@ export class TowifySwiperComponent implements OnChanges {
   @Input()
   data: any[] = [];
 
+  @Input()
+  maxVisibleCount = 5;
+
   @Output()
   swiperLeft = new EventEmitter<number>();
 
@@ -32,7 +35,6 @@ export class TowifySwiperComponent implements OnChanges {
     height: number;
   };
 
-  readonly MAX_VISIBLE_CONTENT_COUNT = 5;
   currentIndex;
   transformPercent;
   animationDirection?: 'left' | 'right';

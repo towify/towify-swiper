@@ -7,7 +7,7 @@
 >
   <ng-container *ngFor="let item of data; let swiperIndex = index;">
     <div
-      *ngIf="swiperIndex >= currentIndex - 2 && swiperIndex <= currentIndex + MAX_VISIBLE_CONTENT_COUNT"
+      *ngIf="swiperIndex >= currentIndex - 2 && swiperIndex <= currentIndex + maxVisibleCount"
       class="swiper-card"
       (transitionend)="transitionEnd()"
       [style.transition]="animationTransition"

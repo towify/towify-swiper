@@ -34,9 +34,15 @@ export class AppComponent {
   }
 
   swiperRight(_: number) {
-    if (this.swiper.length - this.swiperComponent.currentIndex < this.swiperComponent.MAX_VISIBLE_CONTENT_COUNT) {
+    if (this.swiper.length - this.swiperComponent.currentIndex < this.swiperComponent.maxVisibleCount) {
       this.swiper.push({
         background: 'red'
+      }, {
+        background: 'blue'
+      }, {
+        background: 'black'
+      }, {
+        background: 'green'
       })
     }
   }
