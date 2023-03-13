@@ -3,15 +3,13 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TowifySwiperContentDirective, TowifySwiperModule } from '../../../towify-swiper/src';
-import { FormsModule } from '@angular/forms';
+import { TowifySwiperModule } from '../../../towify-swiper/src';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
     TowifySwiperModule
   ],
   providers: [],

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { TowifySwiperComponent } from '../../../towify-swiper/src';
 
 
 @Component({
@@ -7,6 +8,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+
+  @ViewChild('swiperComponent', { read: TowifySwiperComponent, static: true })
+  swiperComponent!: TowifySwiperComponent;
+
   swiper = [{
     background: 'red'
   }, {
@@ -28,7 +33,17 @@ export class AppComponent {
     console.log('swiperLeft = ', index)
   }
 
-  swiperRight(index: number) {
-    console.log('swiperRight = ', index)
+  swiperRight(_: number) {
+    if (this.swiper.length - this.swiperComponent.currentIndex < this.swiperComponent.maxVisibleCount) {
+      this.swiper.push({
+        background: 'red'
+      }, {
+        background: 'blue'
+      }, {
+        background: 'black'
+      }, {
+        background: 'green'
+      })
+    }
   }
 }
