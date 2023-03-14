@@ -14,10 +14,6 @@
     "module": "es2020",
     "lib": ["es2018", "dom"],
     "paths": {
-      "spacing-inspector": [
-        "dist/spacing-inspector/spacing-inspector",
-        "dist/spacing-inspector"
-      ],
       "test": ["dist/test/test", "dist/test"]
     }
   }
