@@ -102,11 +102,19 @@ export class TowifySwiperComponent implements OnChanges {
   }
 
   dragEnd() {
-    this.animationDirection = this.transformPercent > 0 ? 'right' : 'left';
+    if (this.transformPercent > 0.3) {
+      this.animationDirection = 'right';
+    } else if (this.transformPercent < -0.3) {
+      this.animationDirection = 'left'
+    } else {
+      this.animationDirection = undefined;
+    }
     this.#startX = -1;
     this.transformPercent = 0;
     this.animationTransition = `all ${ this.#interval }s`;
-    this.currentIndex += 1;
+    if (this.animationDirection) {
+      this.currentIndex += 1;
+    }
     this.isDragging = false;
   }
 
