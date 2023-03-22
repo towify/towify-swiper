@@ -1,4 +1,4 @@
-import { Component, ContentChild, ElementRef, EventEmitter, Input, Output, ViewChild, } from '@angular/core';
+import { Component, ContentChild, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild, } from '@angular/core';
 import { TowifySwiperContentDirective } from './towify-swiper-content.directive';
 import { CdkDragMove, CdkDragStart } from '@angular/cdk/drag-drop';
 
@@ -7,7 +7,7 @@ import { CdkDragMove, CdkDragStart } from '@angular/cdk/drag-drop';
   templateUrl: './towify-swiper.component.html',
   styleUrls: ['./towify-swiper.component.scss']
 })
-export class TowifySwiperComponent {
+export class TowifySwiperComponent implements OnChanges {
   @ContentChild(TowifySwiperContentDirective)
   content?: TowifySwiperContentDirective;
 
@@ -17,53 +17,63 @@ export class TowifySwiperComponent {
   @Input()
   data: any[] = [];
 
+  @Input()
+  maxVisibleCount = 5;
+
   @Output()
   swiperLeft = new EventEmitter<number>();
 
   @Output()
   swiperRight = new EventEmitter<number>();
 
-  readonly interval: number;
-  topIndex;
-  startX;
-  transformPercent = 0;
-  containerRect: {
+  readonly #interval;
+  #startX;
+  #containerRect: {
     x: number;
     y: number;
     width: number;
     height: number;
   };
 
+  currentIndex;
+  transformPercent;
   animationDirection?: 'left' | 'right';
   animationTransition = '';
   isDragging = false;
 
   computeDragRenderPos = () => {
-    return { x: this.containerRect.x, y: this.containerRect.y };
+    return { x: this.#containerRect.x, y: this.#containerRect.y };
   };
 
   constructor() {
-    this.topIndex = 0;
-    this.startX = -1;
-    this.containerRect = {
+    this.currentIndex = 0;
+    this.transformPercent = 0;
+    this.#startX = -1;
+    this.#containerRect = {
       x: 0,
       y: 0,
       width: 1,
       height: 1
     };
-    this.interval = 0.5;
+    this.#interval = 0.5;
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    const { data } = changes;
+    if (!data) return;
+    this.currentIndex = 0;
   }
 
   dragStart(data: CdkDragStart) {
     if (data.event.type === 'mousemove') {
-      this.startX = (<MouseEvent>data.event).clientX;
+      this.#startX = (<MouseEvent>data.event).clientX;
     } else if ((<TouchEvent>data.event).touches.length === 1) {
-      this.startX = (<TouchEvent>data.event).touches[0].clientX;
+      this.#startX = (<TouchEvent>data.event).touches[0].clientX;
     }
     const swiperContainerRect = (
       this.swiperContainer.nativeElement as HTMLElement
     ).getBoundingClientRect();
-    this.containerRect = {
+    this.#containerRect = {
       x: swiperContainerRect.x,
       y: swiperContainerRect.y,
       width: swiperContainerRect.width,
@@ -82,21 +92,29 @@ export class TowifySwiperComponent {
     } else if ((<TouchEvent>data.event).touches.length === 1) {
       moveX = (<TouchEvent>data.event).touches[0].clientX;
     }
-    if (this.startX === -1 || moveX === -1) return;
-    const translateX = moveX - this.startX;
+    if (this.#startX === -1 || moveX === -1) return;
+    const translateX = moveX - this.#startX;
     this.transformPercent = parseFloat(
-      (translateX / this.containerRect.width).toFixed(2)
+      (translateX / this.#containerRect.width).toFixed(2)
     );
     if (this.transformPercent > 1) this.transformPercent = 1;
     if (this.transformPercent < -1) this.transformPercent = -1;
   }
 
   dragEnd() {
-    this.animationDirection = this.transformPercent > 0 ? 'right' : 'left';
-    this.startX = -1;
+    if (this.transformPercent > 0.3) {
+      this.animationDirection = 'right';
+    } else if (this.transformPercent < -0.3) {
+      this.animationDirection = 'left'
+    } else {
+      this.animationDirection = undefined;
+    }
+    this.#startX = -1;
     this.transformPercent = 0;
-    this.animationTransition = `all ${ this.interval }s`;
-    this.topIndex += 1;
+    this.animationTransition = `all ${ this.#interval }s`;
+    if (this.animationDirection) {
+      this.currentIndex += 1;
+    }
     this.isDragging = false;
   }
 
@@ -104,9 +122,9 @@ export class TowifySwiperComponent {
     if (!this.animationTransition) return;
     this.animationTransition = '';
     if (this.animationDirection === 'right') {
-      this.swiperRight.emit(this.topIndex - 1);
+      this.swiperRight.emit(this.currentIndex - 1);
     } else if (this.animationDirection === 'left') {
-      this.swiperLeft.emit(this.topIndex - 1);
+      this.swiperLeft.emit(this.currentIndex - 1);
     }
     this.animationDirection = undefined;
   }
