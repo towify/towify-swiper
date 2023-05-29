@@ -27,7 +27,6 @@
     "*.{js,css,md,json,scss}": "prettier --write"
   },
   "private": true,
-
   "dependencies": {
     "@angular/cdk": "~16.0.2",
     "@angular/common": "~16.0.3",
